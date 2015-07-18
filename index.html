@@ -2,7 +2,9 @@
 <head>
   <title>Chromatic - Collaborate and Create Music</title>
 
+  <script src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/login.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
 
   <link rel="stylesheet" type="text/css" href="css/boostrap.css">
@@ -10,7 +12,99 @@
 </head>
 
 <body>
+  <!-- NavBar -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Chromatic</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul id="topRightNavBar" class="nav navbar-nav navbar-right">
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <div id="login-wrapper">
+    <div style="height: 100%;" class="jumbotron col-md-offset-4 col-md-4">
+      
+      <legend>Login</legend>
+      <div class="form-group">
+        <label id="" class="col-lg-2 control-label">Username</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" id="usernameLogin" placeholder="Username">
+        </div>
+        <br>
+        <br>
+        <br>
+        <label id="" class="col-lg-2 control-label">Password</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" id="passwordLogin" placeholder="Password">
+        </div>
+      </div>
+        <br>
+        <br>
+        <br>
+      <button type="submit" id="loginButton" class="btn btn-primary col-md-6 col-md-offset-3">Login</button>
+    </div>
+
+    <div style="height: 100%;" class="jumbotron col-md-4">
+      <legend>Signup</legend>
+      <div class="form-group">
+        <label class="col-lg-2 control-label">First Name</label>
+        <div class="col-lg-10">
+          <input type="text" id="firstNameSignup"  class="form-control" id="firstNameInput" placeholder="First Name">
+        </div>
+        <br>
+        <br>
+        <br>
+        <label class="col-lg-2 control-label">Last Name</label>
+        <div class="col-lg-10">
+          <input type="text" id="lastNameSignup" class="form-control" id="lastNameInput" placeholder="Last Name">
+        </div>
+        <br>
+        <br>
+        <br>
+        <label class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" id="emailSignup" placeholder="Email">
+        </div>
+        <br>
+        <br>
+        <br>
+        <label class="col-lg-2 control-label">Profile Picture</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" id="profileSignup" placeholder="Profile Picture">
+        </div>
+        <br>
+        <br>
+        <br>
+        <label class="col-lg-2 control-label">Username</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" id="usernameSignup"  placeholder="Username">
+        </div>
+        <br>
+        <br>
+        <br>
+        <label class="col-lg-2 control-label">Password</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control"  id="passwordSignup" 
+          placeholder="Password">
+        </div>
+      </div>
+        <br>
+        <br>
+        <br>
+      <button type="submit" id="signupButton" class="btn btn-primary col-md-6 col-md-offset-3">Sign Up</button>
+    </div>
 
   </div>
   
