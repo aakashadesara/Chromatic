@@ -73,7 +73,7 @@ var songs = [
 function chromatic(){
 	$("#content-wrapper").html("");
 	$("#login-wrapper").hide();
-	$("#content-wrapper").html("<div class=\"col-md-5\" id=\"songHolder\" style=\"overflow: scroll; \"style=\"background-color: red; height: 100%;\"></div>    <div class=\"col-md-2\" id=\"soundHolder\" style=\"background-color: blue; height: 400px;\"></div>    <div class=\"col-md-5\" id=\"beatMakerHolder\" style=\"background-color: green; height: 400px;\"></div>    <div class=\"col-md-12\" id=\"waveHolder\" style=\"background-color: rgba(99,159, 212, 1); height: 250px; padding:2%;\" ></div>  ");
+	$("#content-wrapper").html("<div class=\"col-md-5\" id=\"songHolder\" style=\"overflow: scroll; \"style=\"background-color: red; height: 100%;\"></div>    <div class=\"col-md-2\" id=\"soundHolder\" style=\"background-color: blue; height: 400px;\"></div>    <div class=\"col-md-5\" id=\"beatMakerHolder\" style=\"background-color: green; height: 400px;\"></div>    <div class=\"col-md-11\" id=\"waveHolder\" style=\"background-color: rgba(99,159, 212, 1); height: 250px; padding:2%;\" ></div> <div class=\"col-md-1\" id=\"leapHolder\" style=\"background-color: white; height: 250px; padding:2%;\" ></div> ");
 	fillSongHolder();
 }
 
@@ -112,7 +112,16 @@ function waveSurfer(song){
 
 	wavesurfer.on('ready', function () {
 	    wavesurfer.play();
+
+	    var timeline = Object.create(WaveSurfer.Timeline);
+
+	    timeline.init({
+	        wavesurfer: wavesurfer,
+	        container: "#waveHolder"
+	    });
 	});
+
+
 
 	wavesurfer.load(song);
 }
@@ -155,4 +164,6 @@ function dolbyCompatability(){
 	    }
 	};
 }
+
+
 

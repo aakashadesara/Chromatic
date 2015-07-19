@@ -1,5 +1,4 @@
 $( document ).ready(function() {
-	
 
 	Parse.initialize("LiehTjg3LRu4wBRW8UxyVbdRcEa4ya5ehirwmpA7", "RPsGYoxIl4hpdHjkD2ZSN49Jgmp7mPj6rbvTz2l0");
 
@@ -19,6 +18,24 @@ $( document ).ready(function() {
 
     	signup(fName, lName, email, pLink, username, password);
     });
+
+    Leap.loop(function(frame) {
+
+    if(frame.hands.length == 1){
+
+      xpos = Math.floor(frame.hands[0].palmPosition[0]);
+      ypos = frame.hands[0].palmPosition[1]/200 - .15;
+
+      //console.log("Leap X: (" + Math.round((frame.hands[0].palmPosition[0]/1000 * 1000))/1 + ")"); 
+      //console.log("Leap Y: (" + frame.hands[0].palmPosition[1]/1000 * 1000 + ")"); 
+      //console.log("Leap Z: (" + frame.hands[0].palmPosition[2]/1000 * 1000 + ")"); 
+
+      $("#leapHolder").html("Leap X: (" + Math.round((frame.hands[0].palmPosition[0]/1000 * 1000))/1 + ")" + "<br>" + "Leap Y: (" + frame.hands[0].palmPosition[1]/1000 * 1000 + ")" + "<br>" + "Leap Z: (" + frame.hands[0].palmPosition[2]/1000 * 1000 + ")");
+
+     }
+
+
+});
 });
 
 function login(username, password){
