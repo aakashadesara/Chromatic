@@ -1,3 +1,19 @@
+var sounds = [
+    ["images/clap.png", "sound/clap.mp3", "Clap"],
+    ["images/clave.png", "sound/clave.mp3", "Clave"],
+    ["images/cowbell.png", "sound/cowbell.mp3", "Cowbell"],
+    ["images/crahs.png", "sound/crash.mp3", "Crash"],
+    ["images/hihat.png", "sound/hihat.mp3", "Hihat"],
+    ["images/snare.png", "sound/snaredrum.mp3", "Snare"],
+    ["images/snare2.png", "sound/snaredrum2.mp3", "Snare (2)"],
+    ["images/snare3.png", "sound/snaredrum3.mp3", "Snare (3)"]
+];
+
+var oldNum = 0;
+
+var soundsArray;
+var indexesArray;
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['wavesurfer'], factory);
@@ -25,6 +41,27 @@
                 throw Error('No container for WaveSurfer timeline');
             }
 
+            
+
+            //alert(params.beatsarray);
+            console.log(params.beatsarray);
+
+            soundsArray = [];
+            indexesArray = [];
+
+            for(var i = 0; i < params.beatsarray[0].length; i++){
+                 console.log(params.beatsarray);
+                soundsArray.push(params.beatsarray[0][i][0]);
+                indexesArray.push(params.beatsarray[0][i][1]);
+            }
+
+            console.log(indexesArray);
+            console.log(soundsArray);
+            //alert(soundsArray);
+            //alert(indexesArray);
+
+
+
             this.width = drawer.width;
             this.height = this.params.height || 20;
             this.notchPercentHeight = this.params.notchPercentHeight || 90;
@@ -32,6 +69,7 @@
             this.secondaryColor = this.params.secondaryColor || '#c0c0c0';
             this.primaryFontColor = this.params.primaryFontColor || '#000';
             this.secondaryFontColor = this.params.secondaryFontColor || '#000';
+            this.thirdColor = this.params.thirdColor || '#ABAB54';
             this.fontFamily = this.params.fontFamily || 'Arial';
             this.fontSize = this.params.fontSize || 10;
 
@@ -124,6 +162,8 @@
             }
             var pixelsPerSecond = width/duration;
 
+
+
             if (duration > 0) {
                 var curPixel = 0,
                     curSeconds = 0,
@@ -161,7 +201,10 @@
                     height2 = (this.height * (this.notchPercentHeight / 100.0)) - 4,
                     fontSize = this.fontSize * wsParams.pixelRatio;
 
+
+
                 for (var i = 0; i < totalSeconds/timeInterval; i++) {
+                    
                     if (i % primaryLabelInterval == 0) {
                         this.timeCc.fillStyle = this.primaryColor;
                         this.timeCc.fillRect(curPixel, 0, 1, height1);
@@ -179,13 +222,30 @@
                         this.timeCc.fillRect(curPixel, 0, 1, height2);
                     }
 
+                    for(var z = 0; z < indexesArray.length; z++){
+                        if(indexesArray[z] == i){
+                            this.timeCc.fillStyle = this.secondaryColor;
+                            this.timeCc.fillRect(curPixel, 5, 5, height1 + 10);
+                            this.timeCc.fillStyle = this.thirdColor;
+                            this.timeCc.fillText(formatTime(curSeconds), curPixel, height1);
+                        }
+                    }
+
                     curSeconds += timeInterval;
                     curPixel += pixelsPerSecond * timeInterval;
                 }
             }
         },
-
         updateScroll: function () {
+
+            for(var i = 0; i < indexesArray.length; i++){
+                if(oldNum != Math.round(wavesurfer.getCurrentTime()) && indexesArray[i] == Math.round(wavesurfer.getCurrentTime())){
+                    console.log(sounds[soundsArray[i]][1]);
+                    var audio = new Audio(sounds[soundsArray[i]][1]);
+                     audio.play();
+                    oldNum = Math.round(wavesurfer.getCurrentTime());
+                }
+            }
             this.wrapper.scrollLeft = this.drawer.wrapper.scrollLeft;
         }
     };

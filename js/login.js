@@ -70,7 +70,7 @@ function signup(fName, lName, email, pLink, username, password){
 	user.set("username", username);
 	user.set("password", password);
 	user.set("friendList", []);
-	user.set("soungArray", []);
+	user.set("songArray", []);
 
 	var UserObj = Parse.Object.extend("UserObj");
 	var userObj = new UserObj();
@@ -79,11 +79,12 @@ function signup(fName, lName, email, pLink, username, password){
 	userObj.set("lastname", lName);
 	userObj.set("username", username);
 	userObj.set("profileLink", pLink);
+	userObj.set("songsCollection", []);
 
 	userObj.save(null, {
 	  success: function(userObj) {
 	    // Execute any logic that should take place after the object is saved.
-	    console.log('New object created with objectId: ' + gameScore.id);
+	    console.log('New object created with objectId: ' + userObj.id);
 	  },
 	  error: function(userObj, error) {
 	    // Execute any logic that should take place if the save fails.
@@ -127,7 +128,6 @@ function findFriend(){
 	    userObj.save(null, {
 	    	success: function(userObj) {
 			    // Execute any logic that should take place after the object is saved.
-			    console.log('New object created with objectId: ' + gameScore.id);
 			    dashboard(username);
 			 },
 			 error: function(userObj, error) {
