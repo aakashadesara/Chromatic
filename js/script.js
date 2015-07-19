@@ -16,7 +16,7 @@ function dashboard(user){
 	$("#content-wrapper").html("<div style=\" text-align: center;\" class=\"jumbotron col-md-4\">  <img src=\"" + Parse.User.current().get("profileLink") + "\" style=\"width: 200px; height: 200px;\"class=\"img-circle\"> <br>  <h1>" + Parse.User.current().get("firstname") + " " + Parse.User.current().get("lastname") + "</h1><input type=\"text\" style=\"text-align: center;\"class=\"form-control\" id=\"friendFinder\" placeholder=\"Find a friend by username \"><p><br><a class=\"btn btn-primary btn-lg\" onClick=\"findFriend();\">Add Friend</a></p></div>");
 	$("#content-wrapper").html($("#content-wrapper").html() + "<div class=\"col-md-8 jumbotron\" id=\"friendsDiv\"></div>");
 
-	for(var i = 0; i < user.get("friendList").length; i++){
+	for(var i = 0; i < Parse.User.current().get("friendList").length; i++){
 		getFriendInfo(user.get("friendList")[i]);
 	}
 }

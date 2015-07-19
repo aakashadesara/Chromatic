@@ -50,7 +50,6 @@ var indexesArray;
             indexesArray = [];
 
             for(var i = 0; i < params.beatsarray[0].length; i++){
-                 console.log(params.beatsarray);
                 soundsArray.push(params.beatsarray[0][i][0]);
                 indexesArray.push(params.beatsarray[0][i][1]);
             }
@@ -240,7 +239,7 @@ var indexesArray;
 
             for(var i = 0; i < indexesArray.length; i++){
                 if(oldNum != Math.round(wavesurfer.getCurrentTime()) && indexesArray[i] == Math.round(wavesurfer.getCurrentTime())){
-                    console.log(sounds[soundsArray[i]][1]);
+                    console.log("works");
                     var audio = new Audio(sounds[soundsArray[i]][1]);
                      audio.play();
                     oldNum = Math.round(wavesurfer.getCurrentTime());
