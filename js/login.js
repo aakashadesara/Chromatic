@@ -19,23 +19,7 @@ $( document ).ready(function() {
     	signup(fName, lName, email, pLink, username, password);
     });
 
-    Leap.loop(function(frame) {
 
-    if(frame.hands.length == 1){
-
-      xpos = Math.floor(frame.hands[0].palmPosition[0]);
-      ypos = frame.hands[0].palmPosition[1]/200 - .15;
-
-      //console.log("Leap X: (" + Math.round((frame.hands[0].palmPosition[0]/1000 * 1000))/1 + ")"); 
-      //console.log("Leap Y: (" + frame.hands[0].palmPosition[1]/1000 * 1000 + ")"); 
-      //console.log("Leap Z: (" + frame.hands[0].palmPosition[2]/1000 * 1000 + ")"); 
-
-      $("#leapHolder").html("Leap X: (" + Math.round((frame.hands[0].palmPosition[0]/1000 * 1000))/1 + ")" + "<br>" + "Leap Y: (" + frame.hands[0].palmPosition[1]/1000 * 1000 + ")" + "<br>" + "Leap Z: (" + frame.hands[0].palmPosition[2]/1000 * 1000 + ")");
-
-     }
-
-
-});
 });
 
 function login(username, password){
@@ -121,9 +105,11 @@ function signup(fName, lName, email, pLink, username, password){
 }
 
 function findFriend(){
+	var username =  $("#friendFinder").val();
+
 	var UserObj = Parse.Object.extend("UserObj");
 	var query = new Parse.Query(UserObj);
-	query.equalTo("username", $("#friendFinder").val());
+	query.equalTo("username",username);
 	query.find({
 	  success: function(results) {
 	    alert("Successfully retrieved " + results.length + " scores.");
@@ -132,15 +118,17 @@ function findFriend(){
 	    var userObj = Parse.User.current();
 
 	    var newFriendList = userObj.get("friendList");
+	    alert($("#friendFinder").val());
 	    newFriendList.push($("#friendFinder").val());
 
-	    console.log(newFriendList);
+	  	alert(newFriendList);
 
 	    userObj.set("friendList", newFriendList);
 	    userObj.save(null, {
 	    	success: function(userObj) {
 			    // Execute any logic that should take place after the object is saved.
 			    console.log('New object created with objectId: ' + gameScore.id);
+			    dashboard(username);
 			 },
 			 error: function(userObj, error) {
 			    // Execute any logic that should take place if the save fails.
@@ -148,6 +136,7 @@ function findFriend(){
 			    console.log('Failed to create new object, with error code: ' + error.message);
 			 }
 	    });
+	    dashboard(Parse.User.current());
 
 	    /*for (var i = 0; i < results.length; i++) {
 	      var object = results[i];
@@ -159,5 +148,5 @@ function findFriend(){
 	  }
 	});
 
-	dashboard(Parse.User.current());
+	
 }

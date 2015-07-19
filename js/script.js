@@ -1,11 +1,13 @@
 var wavesurfer;
 var numTimes = 0;
+var currentSound = null;
 
 function dashboard(user){
 	
 	if(numTimes != 0){
 		wavesurfer.empty();
 	}
+	setSoundKeys();
 
 	$("#login-wrapper").hide();
 	$("#topRightNavBar").html("<li><a onClick=\"dashboard(Parse.User.current());\">Dashboard</a></li><li><a onClick=\"chromatic();\">Chromatic</a></li><li><a onClick=\"location.reload();\">Signout</a></li>");
@@ -14,6 +16,42 @@ function dashboard(user){
 
 	for(var i = 0; i < user.get("friendList").length; i++){
 		getFriendInfo(user.get("friendList")[i]);
+	}
+}
+
+function setSoundKeys(){
+	window.addEventListener("keydown", dealWithKeyboard, false);
+	 
+	function dealWithKeyboard(e) {
+	    // gets called when any of the keyboard events are overheard
+	    switch(e.keyCode){
+	    	case 49:
+	    		setCurrentSound(0);
+	    		break;
+	    	case 50:
+	    		setCurrentSound(1);
+	    		break;
+	    	case 81:
+	    		setCurrentSound(2);
+	    		break;
+	    	case 87:
+	    		setCurrentSound(3);
+	    		break;
+	    	case 65:
+	    		setCurrentSound(4);
+	    		break;
+    		case 83:
+    			setCurrentSound(5);
+    			break;
+    		case 90:
+    			setCurrentSound(6);
+    			break;
+    		case 88:
+    			setCurrentSound(7);
+    			break;
+    		default:
+    			break;
+	    }
 	}
 }
 
@@ -39,7 +77,6 @@ function getFriendInfo(username){
 }
 
 var songs = [
-	["All About That Bass", "Meghan Trainor", "AllAboutThatBass"],
 	["Hey Brother", "Avicii", "HeyBrother"],
 	["Wake Me Up", "Avicii", "WakemeUp"],
 	["Sail", "Awolnation", "Sail"],
@@ -47,7 +84,6 @@ var songs = [
 	["Blank Space", "Taylor Swift", "BlankSpace"],
 	["Boom Clap", "Charlie Xcx", "BoomClap"],
 	["Centuries", "Fall Out Boys", "Centuries"],
-	["Can't Hold Us Down", "Christina Aguilera", "CantHoldUsDown"],
 	["Cool Kids", "Echosmith", "CoolKids"],
 	["Counting Stars", "One Republic", "CountingStars"],
 	["Get Lucky", "Daft Punk", "GetLucky"],
@@ -70,11 +106,38 @@ var songs = [
 	["Shake it Off", "Taylor Swift", "ShakeItOff"],
 ];
 
+var sounds = [
+	["images/clap.png", "sound/clap.wav"],
+	["images/clave.png", "sound/clave.wav"],
+	["images/cowbell.png", "sound/cowbell.wav"],
+	["images/crahs.png", "sound/crash.wav"],
+	["images/hihat.png", "sound/hihat.wav"],
+	["images/snare.png", "sound/snaredrum.wav"],
+	["images/snare2.png", "sound/snaredrum2.wav"],
+	["images/snare3.png", "sound/snaredrum3.wav"]
+];
+
+function addSounds(){
+	for(var i = 0; i < sounds.length; i++){
+		$("#soundHolder").html($("#soundHolder").html() + "<img src=\"" + sounds[i][0] + "\" id=\"soundDisk" + i + "\" style=\"width: 50%; opacity: 0.6;\"class=\"img-circle\">" );
+	}
+}
+
+function setCurrentSound(num){
+	//alert(num);
+	for(var i = 0; i < 8; i++){
+		$("#soundDisk" + i).attr("style", "width: 50%; opacity: 0.6;");
+	}
+	$("#soundDisk" + num).attr("style", "width: 50%; opacity: 1;");
+}
+
+
 function chromatic(){
 	$("#content-wrapper").html("");
 	$("#login-wrapper").hide();
-	$("#content-wrapper").html("<div class=\"col-md-5\" id=\"songHolder\" style=\"overflow: scroll; \"style=\"background-color: red; height: 100%;\"></div>    <div class=\"col-md-2\" id=\"soundHolder\" style=\"background-color: blue; height: 400px;\"></div>    <div class=\"col-md-5\" id=\"beatMakerHolder\" style=\"background-color: green; height: 400px;\"></div>    <div class=\"col-md-11\" id=\"waveHolder\" style=\"background-color: rgba(99,159, 212, 1); height: 250px; padding:2%;\" ></div> <div class=\"col-md-1\" id=\"leapHolder\" style=\"background-color: white; height: 250px; padding:2%;\" ></div> ");
+	$("#content-wrapper").html("<div class=\"col-md-5\" id=\"songHolder\" style=\"overflow: scroll; \"style=\"background-color: red; height: 100%;\"></div>    <div class=\"col-md-2\" id=\"soundHolder\" style=\"padding: 2%; background-color: rgba(50,50,50,1); height: 400px;\"></div>    <div class=\"col-md-5\" id=\"beatMakerHolder\" style=\"background-color: green; height: 400px;\"></div>    <div class=\"col-md-1\" style=\"background-color: purple; height: 250px;\"></div><div class=\"col-md-10\" id=\"waveHolder\" style=\"background-color: white; height: 250px; padding:2%;\" ></div> <div class=\"col-md-1\" id=\"leapHolder\" style=\"background-color: white; height: 250px; padding:2%;\" ></div> ");
 	fillSongHolder();
+	addSounds();
 }
 
 function fillSongHolder(){
@@ -104,11 +167,22 @@ function waveSurfer(song){
 
 	wavesurfer = Object.create(WaveSurfer);
 
-	wavesurfer.init({
-	    container: document.querySelector('#waveHolder'),
-	    waveColor: '#1254AA',
-	    progressColor: '#34DE12'
-	});
+	var options = {
+        container     : document.querySelector('#waveHolder'),
+        waveColor     : '#1254AA',
+        progressColor : '#34DE12',
+        cursorColor   : 'navy'
+    };
+
+    if (true) {
+        options.minPxPerSec = 50;
+        options.scrollParent = true;
+    }
+
+    // Init
+    wavesurfer.init(options);
+
+
 
 	wavesurfer.on('ready', function () {
 	    wavesurfer.play();
@@ -119,6 +193,44 @@ function waveSurfer(song){
 	        wavesurfer: wavesurfer,
 	        container: "#waveHolder"
 	    });
+
+	    Leap.loop(function(frame) {
+
+	    if(frame.hands.length == 1){
+
+			if(frame.gestures.length > 0){
+				if(frame.gestures[0].type == 'screenTap'){
+				    alert("Inserted " + "instrument name" + " at " + Math.round(wavesurfer.getCurrentTime()));
+				}
+			}
+
+	      xPos = Math.round((frame.hands[0].palmPosition[0]/1000 * 1000))/1;
+	      yPos = frame.hands[0].palmPosition[1]/1000 * 1000;
+	      zPos = frame.hands[0].palmPosition[2]/1000 * 1000;
+	      $("#leapHolder").html("Leap X: (" + Math.round((frame.hands[0].palmPosition[0]/1000 * 1000))/1 + ")" + "<br>" + "Leap Y: (" + frame.hands[0].palmPosition[1]/1000 * 1000 + ")" + "<br>" + "Leap Z: (" + frame.hands[0].palmPosition[2]/1000 * 1000 + ") <br>" + " Current Time:" + Math.round(wavesurfer.getCurrentTime()));
+
+	      if(zPos > 0){
+		      if(xPos > 100){
+		      	wavesurfer.skip(xPos / 1000);
+		      } else if (xPos < -100){
+		      	wavesurfer.skip(xPos /1000);
+		      } 
+
+		      var v = yPos / 400;
+		      if(v < 0){
+		      	v = 0;
+		      } else if (v > 1){
+		      	v = 1;
+		      }
+
+		      wavesurfer.setVolume(v);
+		     }
+
+
+	     }
+
+
+	});
 	});
 
 
@@ -164,6 +276,5 @@ function dolbyCompatability(){
 	    }
 	};
 }
-
 
 
