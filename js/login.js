@@ -1,4 +1,6 @@
 $( document ).ready(function() {
+	
+
 	Parse.initialize("LiehTjg3LRu4wBRW8UxyVbdRcEa4ya5ehirwmpA7", "RPsGYoxIl4hpdHjkD2ZSN49Jgmp7mPj6rbvTz2l0");
 
 	Parse.User.logOut();
@@ -36,7 +38,7 @@ function login(username, password){
 				}
 			},
 			fail      : function (data) {
-				alert(data.error);
+				console.log(data.error);
 				if (typeof fail != 'undefined') {
 					fail(data);
 				}
@@ -52,7 +54,7 @@ function login(username, password){
 	  },
 	  error: function(user, error) {
 	    // The login failed. Check error to see why.
-	    alert("Error: " + error.code + " " + error.message);
+	    console.log("Error: " + error.code + " " + error.message);
 	  }
 	});
 }
@@ -80,12 +82,12 @@ function signup(fName, lName, email, pLink, username, password){
 	userObj.save(null, {
 	  success: function(userObj) {
 	    // Execute any logic that should take place after the object is saved.
-	    alert('New object created with objectId: ' + gameScore.id);
+	    console.log('New object created with objectId: ' + gameScore.id);
 	  },
 	  error: function(userObj, error) {
 	    // Execute any logic that should take place if the save fails.
 	    // error is a Parse.Error with an error code and message.
-	    alert('Failed to create new object, with error code: ' + error.message);
+	    console.log('Failed to create new object, with error code: ' + error.message);
 	  }
 	});
 
@@ -96,7 +98,7 @@ function signup(fName, lName, email, pLink, username, password){
 	  },
 	  error: function(user, error) {
 	    // Show the error message somewhere and let the user try again.
-	    alert("Error: " + error.code + " " + error.message);
+	    console.log("Error: " + error.code + " " + error.message);
 	  }
 	});
 }
@@ -115,28 +117,30 @@ function findFriend(){
 	    var newFriendList = userObj.get("friendList");
 	    newFriendList.push($("#friendFinder").val());
 
-	    alert(newFriendList);
+	    console.log(newFriendList);
 
 	    userObj.set("friendList", newFriendList);
 	    userObj.save(null, {
 	    	success: function(userObj) {
 			    // Execute any logic that should take place after the object is saved.
-			    alert('New object created with objectId: ' + gameScore.id);
+			    console.log('New object created with objectId: ' + gameScore.id);
 			 },
 			 error: function(userObj, error) {
 			    // Execute any logic that should take place if the save fails.
 			    // error is a Parse.Error with an error code and message.
-			    alert('Failed to create new object, with error code: ' + error.message);
+			    console.log('Failed to create new object, with error code: ' + error.message);
 			 }
 	    });
 
 	    /*for (var i = 0; i < results.length; i++) {
 	      var object = results[i];
-	      alert(object.id + ' - ' + object.get('playerName'));
+	      console.log(object.id + ' - ' + object.get('playerName'));
 	    }*/
 	  },
 	  error: function(error) {
-	    alert("Error: " + error.code + " " + error.message);
+	    console.log("Error: " + error.code + " " + error.message);
 	  }
 	});
+
+	dashboard(Parse.User.current());
 }
